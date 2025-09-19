@@ -1,0 +1,55 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  creationTimestamp: 2018-07-04T15:03:08Z
+  generation: 1
+  labels:
+    kubevirt.io/os: windows
+    app: windows-server-2022
+  name: windows-server-2022-vm
+spec:
+  running: false
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        kubevirt.io/domain: windows-server-2022-vm
+    spec:
+      architecture: amd64
+      domain:
+        cpu:
+          cores: 4
+        resources:
+          requests:
+            memory: 8192M
+        firmware:
+          uuid: 5d307ca9-b3ef-428c-8861-06e72d69f223
+        devices:
+          disks:
+            - cdrom:
+                bus: sata
+              name: cdrom-disk
+              bootOrder: 1
+            - disk:
+                bus: virtio
+              name: rootdisk
+              bootOrder: 2
+            - cdrom:
+                bus: sata
+              name: virtio-container-disk
+              bootOrder: 3
+        features:
+          acpi:
+            enabled: true
+        machine:
+          type: q35
+      volumes:
+      - name: cdrom-disk
+        persistentVolumeClaim:
+          claimName: windows-installer-2022
+      - name: rootdisk
+        persistentVolumeClaim:
+          claimName: windows-server-2022-data
+      - containerDisk:
+          image: registry.suse.com/suse/vmdp/vmdp:2.5.4.3
+        name: virtio-container-disk

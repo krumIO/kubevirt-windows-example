@@ -1,0 +1,56 @@
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: windows-server-2022-data
+  labels:
+    # insert any desired labels to identify your claim
+    app: windows-server-2022
+spec:
+  storageClassName: local-path
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      # The amount of the volume's storage to request
+      storage: 32Gi
+
+# # Ignore the below resources, they are not yet working. Use the Virtctl CLI instead.
+# ---
+# apiVersion: cdi.kubevirt.io/v1beta1
+# kind: DataVolume
+# metadata:
+#   name: "windows-installer-2022"
+#   labels:
+#     # insert any desired labels to identify your claim
+#     name: windows-server-2022
+# spec:
+#   # storage:
+#   #   accessModes:
+#   #     - ReadWriteOnce
+#   #   resources:
+#   #     requests:
+#   #       storage: 10Gi
+#   pvc:
+#     accessModes:
+#       - ReadWriteOnce
+#     resources:
+#       requests:
+#         storage: 10Gi
+#   source:
+#     upload: {}
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: windows-installer-2022
+#   labels:
+#     # insert any desired labels to identify your claim
+#     app: windows-server-2022
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       # The amount of the volume's storage to request
+#       storage: 10Gi
